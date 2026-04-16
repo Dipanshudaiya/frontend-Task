@@ -16,7 +16,7 @@ const Header = ({ onMenuClick }) => {
 
   const handleLogout = () => {
     logout();
-    navigate("/auth");
+    navigate("/");
   };
 
   return (

@@ -14,7 +14,7 @@ const LoginForm = () => {
     setLoading(true);
     try {
       await login(form);
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       alert("Login failed. Please check your credentials.");
     } finally {
