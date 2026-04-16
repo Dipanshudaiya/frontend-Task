@@ -26,9 +26,15 @@ const useAuthStore = create((set) => ({
     const res = await loginUser(data);
     console.log("LOGIN RESPONSE:", res.data);
 
-    const token = res.data.token;
+    const token = res.data.token || res.data.data?.token;
+    
+    if (!token) {
+       console.error("No token found in response", res.data);
+       throw new Error("Login failed: No token received");
+    }
+
     // Try to get name from response body, then from token
-    let userName = res.data.data?.name || res.data.name || getUserNameFromToken(token);
+    let userName = res.data.name || res.data.data?.name || getUserNameFromToken(token);
     
     // If still no name, but we have a stored pending name (from registration), use that
     if (!userName || userName === "User") {
