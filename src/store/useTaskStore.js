@@ -3,8 +3,11 @@ import * as taskApi from "../api/taskApi";
 
 const useTaskStore = create((set, get) => ({
   tasks: [],
+  priorityFilter: "all",
   loading: false,
   error: null,
+
+  setPriorityFilter: (filter) => set({ priorityFilter: filter }),
 
   fetchTasks: async (projectId) => {
     if (!projectId) return;

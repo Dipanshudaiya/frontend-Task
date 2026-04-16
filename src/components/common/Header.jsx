@@ -1,18 +1,19 @@
 import { useState } from "react";
 import useProjectStore from "../../store/useProjectStore";
+import useTaskStore from "../../store/useTaskStore";
 import useAuthStore from "../../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import AddTaskModal from "./AddTaskModal";
 
 const Header = ({ onMenuClick }) => {
   const { projects, selectedProject, setSelectedProject } = useProjectStore();
+  const { priorityFilter, setPriorityFilter } = useTaskStore();
   const { logout } = useAuthStore();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleAddUser = () => {
-    alert("Invite user functionality would open here!");
-  };
+  
+  // Local state for the filter dropdown to decouple it from Sidebar selection
+  const [displayFilterId, setDisplayFilterId] = useState("");
 
   const handleLogout = () => {
     logout();
@@ -33,16 +34,24 @@ const Header = ({ onMenuClick }) => {
             </svg>
           </button>
 
-          <div className="flex items-center space-x-2 w-full md:w-auto">
+          <div className="flex flex-row items-center gap-2 w-full md:w-auto">
+            {/* Project Select */}
             <select
-              className="bg-white border border-gray-200 text-[13px] md:text-sm font-medium text-gray-700 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full md:w-[180px] p-2 md:p-2.5 shadow-sm truncate"
-              value={selectedProject?._id || selectedProject?.id || ""}
+              className="bg-white border border-gray-200 text-[12px] md:text-sm font-medium text-gray-700 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 md:w-[180px] p-2 md:p-2.5 shadow-sm truncate cursor-pointer"
+              value={displayFilterId}
               onChange={(e) => {
-                const project = projects.find(p => (p._id || p.id) === e.target.value);
-                if (project) setSelectedProject(project);
+                const val = e.target.value;
+                setDisplayFilterId(val); // Only update header text on manual click
+                
+                if (val === "") {
+                  setSelectedProject(null);
+                } else {
+                  const project = projects.find(p => (p._id || p.id) === val);
+                  if (project) setSelectedProject(project);
+                }
               }}
             >
-              <option value="" disabled>Select Project</option>
+              <option value="">Select Project</option>
               {projects.map((p) => (
                 <option key={p._id || p.id} value={p._id || p.id}>
                   {p.name}
@@ -50,38 +59,21 @@ const Header = ({ onMenuClick }) => {
               ))}
             </select>
 
-            <select className="hidden lg:block bg-white border border-gray-200 text-sm font-medium text-gray-700 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-[140px] p-2.5 shadow-sm truncate">
-              <option>My Tasks</option>
-              <option>All Tasks</option>
+            {/* Priority Filter */}
+            <select
+              className="bg-slate-50 border border-slate-200 text-[12px] md:text-sm font-semibold text-slate-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 md:w-[140px] p-2 md:p-2.5 shadow-sm"
+              value={priorityFilter}
+              onChange={(e) => setPriorityFilter(e.target.value)}
+            >
+              <option value="all">All Priorities</option>
+              <option value="high">🔴 High</option>
+              <option value="medium">🟡 Medium</option>
+              <option value="low">🟢 Low</option>
             </select>
           </div>
         </div>
 
-        <div className="flex items-center justify-end space-x-3 md:space-x-6 flex-1">
-          {/* Avatar Stack - Hidden on smallest phones */}
-          <div className="hidden sm:flex -space-x-3 hover:-space-x-2 transition-all duration-300">
-            {[1, 2, 3].map(i => (
-              <img 
-                key={i}
-                src={`https://api.dicebear.com/7.x/avataaars/svg?seed=User${i}&backgroundColor=e2e8f0`}
-                alt="User Avatar"
-                className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-white bg-gray-100 shadow-sm relative z-10"
-              />
-            ))}
-            <button 
-              onClick={handleAddUser}
-              className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-white bg-blue-500 text-white flex items-center justify-center font-bold text-sm md:text-lg hover:bg-blue-600 transition-colors shadow-sm relative z-20"
-            >
-              +
-            </button>
-          </div>
-
-          <button className="hidden md:block text-gray-400 hover:text-gray-600 transition-colors p-2 rounded-full hover:bg-gray-100">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-          </button>
-          
+        <div className="flex items-center justify-end space-x-3 md:space-x-4 flex-1">
           <button 
             onClick={() => setIsModalOpen(true)}
             className="bg-[#2563EB] hover:bg-blue-700 active:bg-blue-800 text-white font-bold py-2 md:py-2.5 px-3 md:px-5 rounded-lg flex items-center shadow-md shadow-blue-500/20 transition-all text-[12px] md:text-sm whitespace-nowrap"

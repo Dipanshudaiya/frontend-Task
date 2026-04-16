@@ -28,8 +28,8 @@ const COLUMN_STYLES = {
 };
 
 const Column = ({ title, status, loading }) => {
-  const { tasks } = useTaskStore();
-  const { selectedProject } = useProjectStore();
+  const { tasks, priorityFilter } = useTaskStore();
+  const { projects, selectedProject } = useProjectStore();
   const [open, setOpen] = useState(false);
 
   const { setNodeRef, isOver } = useDroppable({
@@ -40,13 +40,18 @@ const Column = ({ title, status, loading }) => {
 
   const filteredTasks = tasks.filter((task) => {
     const matchStatus = task.status === status;
-    const currentProjectId = selectedProject?._id || selectedProject?.id;
+    const currentProjectId = selectedProject?._id || selectedProject?.id || projects[0]?._id || projects[0]?.id;
     const taskProjectId = task.project || task.projectId;
     
-    const matchProject = selectedProject 
+    const matchProject = currentProjectId 
       ? (String(taskProjectId) === String(currentProjectId))
       : true;
-    return matchStatus && matchProject;
+
+    const matchPriority = priorityFilter === "all" 
+      ? true 
+      : task.priority === priorityFilter;
+
+    return matchStatus && matchProject && matchPriority;
   });
 
   return (

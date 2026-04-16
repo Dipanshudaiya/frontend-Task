@@ -6,7 +6,6 @@ import {
   Users, 
   Clock, 
   BarChart3, 
-  Star, 
   ArrowRight,
   Menu,
   X
@@ -80,19 +79,19 @@ const Landing = () => {
             <a 
               href="#features" 
               onClick={() => setIsMenuOpen(false)} 
-              className="w-full py-4 px-6 bg-indigo-50 border border-indigo-100 rounded-2xl text-center font-bold text-indigo-700 active:bg-indigo-100 transition-all"
+              className="w-full py-4 px-6 bg-white border border-slate-200 rounded-2xl text-center font-bold text-slate-700 active:bg-blue-600 active:text-white active:border-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300"
             >
               Features
             </a>
             <button 
               onClick={() => { setIsMenuOpen(false); navigate('/auth', { state: { initialTab: 'register' } }); }} 
-              className="w-full py-4 px-6 bg-blue-600 border border-blue-600 rounded-2xl text-center font-bold text-white shadow-xl shadow-blue-500/30 active:scale-[0.98] transition-all"
+              className="w-full py-4 px-6 bg-white border border-slate-200 rounded-2xl text-center font-bold text-slate-700 active:bg-blue-600 active:text-white active:border-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300"
             >
               Register
             </button>
             <button 
               onClick={() => { setIsMenuOpen(false); navigate('/auth', { state: { initialTab: 'login' } }); }} 
-              className="w-full py-4 px-6 bg-white border border-slate-200 rounded-2xl text-center font-bold text-slate-700 active:bg-slate-50 transition-all"
+              className="w-full py-4 px-6 bg-white border border-slate-200 rounded-2xl text-center font-bold text-slate-700 active:bg-blue-600 active:text-white active:border-blue-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300"
             >
               Login
             </button>
@@ -272,30 +271,6 @@ const FeatureCard = ({ icon, title, description, color }) => {
         <h3 className="text-2xl font-bold text-slate-800 mb-3">{title}</h3>
         <p className="text-slate-600 leading-relaxed text-sm md:text-base">{description}</p>
       </div>
-    </div>
-  );
-};
-
-const TestimonialCard = ({ text, author, role, avatar }) => {
-  return (
-    <div className="bg-white p-10 rounded-[2rem] border border-gray-100 shadow-sm relative group hover:shadow-xl transition-all duration-300">
-      <div className="flex items-center gap-4 mb-8">
-        <img src={avatar} alt={author} className="w-14 h-14 rounded-full border-2 border-blue-100 shadow-sm" />
-        <div>
-          <h4 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            {author}
-            <div className="flex items-center gap-0.5 ml-1">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-              ))}
-            </div>
-          </h4>
-          <p className="text-slate-500 text-xs font-medium uppercase tracking-wider">{role}</p>
-        </div>
-      </div>
-      <p className="text-slate-600 italic text-lg leading-relaxed">
-        "{text}"
-      </p>
     </div>
   );
 };

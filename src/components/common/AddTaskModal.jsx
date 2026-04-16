@@ -4,7 +4,7 @@ import useProjectStore from "../../store/useProjectStore";
 
 const AddTaskModal = ({ isOpen, onClose, status }) => {
   const { createTask } = useTaskStore();
-  const { selectedProject } = useProjectStore();
+  const { projects, selectedProject } = useProjectStore();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -29,7 +29,10 @@ const AddTaskModal = ({ isOpen, onClose, status }) => {
 
     setLoading(true);
     try {
-      const pid = selectedProject?._id || selectedProject?.id;
+      // Fallback to first project if no project is selected in the store
+      const activeProject = selectedProject || projects[0];
+      const pid = activeProject?._id || activeProject?.id;
+
       if (!pid) {
         console.error("No project ID found for task creation");
         setLoading(false);
@@ -80,7 +83,7 @@ const AddTaskModal = ({ isOpen, onClose, status }) => {
               <h2 className="text-3xl font-black text-white tracking-tight drop-shadow-sm">Add Task</h2>
               <div className="flex items-center mt-2 space-x-2">
                  <span className="bg-white/20 text-white text-[10px] font-black py-1 px-3 rounded-full uppercase tracking-widest backdrop-blur-md border border-white/20">
-                   {selectedProject?.name}
+                   {(selectedProject || projects[0])?.name}
                  </span>
                  <span className="bg-white text-blue-600 text-[10px] font-black py-1 px-3 rounded-full uppercase tracking-widest shadow-sm">
                    {status}

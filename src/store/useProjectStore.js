@@ -18,10 +18,6 @@ const useProjectStore = create((set, get) => ({
         projects: projectList,
         loading: false 
       });
-      
-      if (projectList.length > 0 && !get().selectedProject) {
-        set({ selectedProject: projectList[0] });
-      }
     } catch (err) {
       console.error("Store fetchProjects error:", err);
       set({ error: err.message, loading: false });

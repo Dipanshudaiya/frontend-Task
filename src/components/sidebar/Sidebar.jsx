@@ -99,9 +99,12 @@ const Sidebar = () => {
               ))}
             </div>
           ) : (
-            projects.map((project) => {
+            projects.map((project, index) => {
               const pid = project._id || project.id;
-              const isActive = (selectedProject?._id === pid) || (selectedProject?.id === pid);
+              // Active if selected in store, OR if nothing is selected, the first project is active
+              const isActive = selectedProject 
+                ? (selectedProject._id === pid || selectedProject.id === pid)
+                : (index === 0);
               return (
                 <div key={pid} className="group relative">
                   <button

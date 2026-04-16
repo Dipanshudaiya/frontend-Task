@@ -19,15 +19,18 @@ import TaskCard from "./TaskCard";
 
 const TaskBoard = () => {
   const { tasks, fetchTasks, updateTask, loading } = useTaskStore();
-  const { selectedProject } = useProjectStore();
+  const { projects, selectedProject } = useProjectStore();
   const [activeTask, setActiveTask] = useState(null);
 
-  // Fetch tasks whenever project changes
+  // Fetch tasks whenever project changes or on initial load
   useEffect(() => {
-    if (selectedProject?._id) {
-      fetchTasks(selectedProject._id);
+    if (selectedProject?._id || selectedProject?.id) {
+      fetchTasks(selectedProject._id || selectedProject.id);
+    } else if (tasks.length === 0 && projects.length > 0) {
+      // Default to first project's tasks on refresh
+      fetchTasks(projects[0]._id || projects[0].id);
     }
-  }, [selectedProject, fetchTasks]);
+  }, [selectedProject, fetchTasks, projects]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -63,12 +66,13 @@ const TaskBoard = () => {
     
     if (activeTaskData && activeTaskData.status !== newStatus) {
       // Update status in backend and handle optimistic update in store
-      const pid = selectedProject?._id || selectedProject?.id;
+      const pid = selectedProject?._id || selectedProject?.id || projects[0]?._id || projects[0]?.id;
       await updateTask(active.id, { status: newStatus }, pid);
     }
   };
 
-  if (!selectedProject) {
+  // Only show "No Project" if we literally have no projects and no selected project
+  if (!selectedProject && projects.length === 0) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center text-slate-500 animate-in fade-in duration-700">
         <div className="w-24 h-24 mb-6 rounded-full bg-slate-900/50 flex items-center justify-center border border-slate-800">
@@ -76,8 +80,8 @@ const TaskBoard = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
           </svg>
         </div>
-        <h2 className="text-xl font-bold text-white mb-2">No Project Selected</h2>
-        <p className="text-sm">Select a project from the sidebar to view tasks</p>
+        <h2 className="text-xl font-bold text-white mb-2">No Projects Found</h2>
+        <p className="text-sm">Create a new project from the sidebar to start tracking tasks</p>
       </div>
     );
   }
