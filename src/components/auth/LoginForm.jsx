@@ -71,7 +71,7 @@ const LoginForm = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full mt-2 bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 rounded-xl transition-transform duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg shadow-blue-500/30 disabled:opacity-60 disabled:cursor-not-allowed text-sm tracking-wide select-none cursor-pointer"
+          className="w-full mt-2 bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 rounded-xl transition-all duration-200 active:brightness-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg shadow-blue-500/30 disabled:opacity-60 disabled:cursor-not-allowed text-sm tracking-wide select-none cursor-pointer"
         >
           {loading ? (
             <span className="flex items-center justify-center">

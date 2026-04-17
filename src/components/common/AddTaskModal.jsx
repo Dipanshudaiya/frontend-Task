@@ -74,7 +74,7 @@ const AddTaskModal = ({ isOpen, onClose, status }) => {
       >
         <div className="overflow-y-auto custom-scrollbar">
         {/* STYLISH HEADER */}
-        <div className="px-6 py-8 md:px-8 md:py-10 bg-gradient-to-br from-[#2563EB] via-[#3B82F6] to-[#60A5FA] relative overflow-hidden shrink-0">
+        <div className="px-6 py-5 md:px-8 md:py-6 bg-gradient-to-br from-[#2563EB] via-[#3B82F6] to-[#60A5FA] relative overflow-hidden shrink-0">
           {/* Decorative circles */}
           <div className="absolute -top-12 -right-12 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
           <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-indigo-400/20 rounded-full blur-xl"></div>
@@ -124,16 +124,16 @@ const AddTaskModal = ({ isOpen, onClose, status }) => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6 md:space-y-8 bg-white">
-          <div className="space-y-6">
+        <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4 md:space-y-5 bg-white">
+          <div className="space-y-4 md:space-y-5">
             <div className="group">
-              <label className="flex items-center text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-2 transition-colors group-focus-within:text-blue-500">
+              <label className="flex items-center text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-2 transition-colors group-focus-within:text-blue-500">
                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                 Task Title
               </label>
               <input
                 ref={firstInputRef}
-                className="w-full bg-[#F8FAFC] border-2 border-transparent focus:border-blue-500 focus:bg-white focus:ring-[6px] focus:ring-blue-500/10 p-4 md:p-5 rounded-2xl text-base md:text-lg font-bold text-gray-800 transition-all outline-none placeholder:text-gray-300 shadow-inner"
+                className="w-full bg-[#F8FAFC] border-2 border-transparent focus:border-blue-500 focus:bg-white focus:ring-[6px] focus:ring-blue-500/10 p-3.5 md:p-4 rounded-2xl text-base md:text-lg font-bold text-gray-800 transition-all outline-none placeholder:text-gray-300 shadow-inner"
                 placeholder="What's the goal?"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -143,12 +143,12 @@ const AddTaskModal = ({ isOpen, onClose, status }) => {
             </div>
 
             <div className="group">
-              <label className="flex items-center text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-2 transition-colors group-focus-within:text-blue-500">
+              <label className="flex items-center text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-2 transition-colors group-focus-within:text-blue-500">
                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h7" /></svg>
                 Description
               </label>
               <textarea
-                className="w-full bg-[#F8FAFC] border-2 border-transparent focus:border-blue-500 focus:bg-white focus:ring-[6px] focus:ring-blue-500/10 p-4 md:p-5 rounded-2xl text-sm font-semibold text-gray-500 transition-all outline-none min-h-[120px] md:min-h-[140px] resize-none placeholder:text-gray-300 leading-relaxed shadow-inner"
+                className="w-full bg-[#F8FAFC] border-2 border-transparent focus:border-blue-500 focus:bg-white focus:ring-[6px] focus:ring-blue-500/10 p-3.5 md:p-4 rounded-2xl text-sm font-semibold text-gray-500 transition-all outline-none min-h-[80px] md:min-h-[100px] resize-none placeholder:text-gray-300 leading-relaxed shadow-inner"
                 placeholder="Break down the details here..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -156,15 +156,15 @@ const AddTaskModal = ({ isOpen, onClose, status }) => {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
               <div className="group">
-                <label className="flex items-center text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-2 transition-colors group-focus-within:text-orange-500">
+                <label className="flex items-center text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-2 transition-colors group-focus-within:text-orange-500">
                   <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><circle cx="12" cy="12" r="5" fill="currentColor"/></svg>
                   Priority
                 </label>
                 <div className="relative">
                   <select
-                    className="w-full bg-[#F8FAFC] border-2 border-transparent focus:border-blue-500 focus:bg-white p-4 md:p-5 rounded-2xl text-[13px] font-black text-gray-800 transition-all outline-none cursor-pointer appearance-none uppercase tracking-widest shadow-inner"
+                    className="w-full bg-[#F8FAFC] border-2 border-transparent focus:border-blue-500 focus:bg-white p-3.5 md:p-4 rounded-2xl text-[13px] font-black text-gray-800 transition-all outline-none cursor-pointer appearance-none uppercase tracking-widest shadow-inner"
                     value={priority}
                     onChange={(e) => setPriority(e.target.value)}
                     disabled={loading}
@@ -180,13 +180,13 @@ const AddTaskModal = ({ isOpen, onClose, status }) => {
               </div>
 
               <div className="group">
-                <label className="flex items-center text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-2 transition-colors group-focus-within:text-blue-500">
+                <label className="flex items-center text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-2 transition-colors group-focus-within:text-blue-500">
                   <svg className="w-4 h-4 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   Due Date
                 </label>
                 <input
                   type="date"
-                  className="w-full bg-[#F8FAFC] border-2 border-transparent focus:border-blue-500 focus:bg-white p-4 md:p-5 rounded-2xl text-[13px] font-black text-gray-800 transition-all outline-none uppercase tracking-widest cursor-pointer shadow-inner"
+                  className="w-full bg-[#F8FAFC] border-2 border-transparent focus:border-blue-500 focus:bg-white p-3.5 md:p-4 rounded-2xl text-[13px] font-black text-gray-800 transition-all outline-none uppercase tracking-widest cursor-pointer shadow-inner"
                   value={dueDate}
                   onChange={(e) => setDueDate(e.target.value)}
                   disabled={loading}
@@ -195,19 +195,19 @@ const AddTaskModal = ({ isOpen, onClose, status }) => {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 pt-6">
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <button 
               type="button"
               onClick={onClose} 
               disabled={loading}
-              className="px-8 py-5 bg-gray-50 hover:bg-gray-100 text-gray-400 text-[11px] font-black rounded-2xl transition-all uppercase tracking-[0.25em] active:scale-95 disabled:opacity-50"
+              className="px-6 py-4 md:px-8 md:py-4 bg-gray-50 hover:bg-gray-100 text-gray-400 text-[11px] font-black rounded-2xl transition-all uppercase tracking-[0.25em] active:scale-95 disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || projects.length === 0}
-              className={`flex-1 py-5 rounded-2xl text-white text-[11px] font-black transition-all shadow-[0_15px_30px_-5px_rgba(37,99,235,0.4)] uppercase tracking-[0.25em] flex items-center justify-center space-x-3 active:scale-[0.98]
+              className={`flex-1 py-4 rounded-2xl text-white text-[11px] font-black transition-all shadow-[0_15px_30px_-5px_rgba(37,99,235,0.4)] uppercase tracking-[0.25em] flex items-center justify-center space-x-3 active:brightness-110
                 ${(loading || projects.length === 0) ? "bg-gray-300 cursor-not-allowed shadow-none" : "bg-[#2563EB] hover:bg-blue-500"}
               `}
             >
