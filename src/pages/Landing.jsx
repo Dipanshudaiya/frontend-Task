@@ -28,7 +28,8 @@ const Landing = () => {
     if (isAuthenticated) {
       navigate("/dashboard");
     } else {
-      navigate("/auth");
+      // Open register form for demo view
+      navigate("/auth", { state: { initialTab: "register" } });
     }
   };
 
@@ -182,13 +183,7 @@ const Landing = () => {
             />
           </div>
 
-          {/* Simple Slider Dots (Visual Only as per image) */}
-          <div className="mt-12 flex justify-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-blue-400"></div>
-            <div className="w-2 h-2 rounded-full bg-slate-200"></div>
-            <div className="w-2 h-2 rounded-full bg-slate-200"></div>
-            <div className="w-2 h-2 rounded-full bg-slate-200"></div>
-          </div>
+
         </div>
       </section>
 

@@ -23,7 +23,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 relative overflow-hidden">
       {/* Dynamic Background */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-100/40 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
       </div>
@@ -45,7 +45,7 @@ const Auth = () => {
           <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
           
           <div className="mt-2">
-            {isLogin ? <LoginForm /> : <RegisterForm />}
+            {isLogin ? <LoginForm /> : <RegisterForm onSwitchToLogin={() => setIsLogin(true)} />}
           </div>
         </div>
 

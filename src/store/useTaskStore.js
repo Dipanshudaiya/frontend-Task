@@ -24,21 +24,36 @@ const useTaskStore = create((set, get) => ({
   },
 
   createTask: async (data) => {
+    const originalTasks = get().tasks;
     try {
+      const tempId = `temp-${Date.now()}`;
       const payload = {
+        _id: tempId,
         title: data.title || "New Task",
         description: data.description || "",
         status: data.status || "todo",
         priority: data.priority || "medium",
         projectId: data.projectId || data.project,
+        dueDate: data.dueDate,
         ...data
       };
       
-      const res = await taskApi.createTask(payload);
-      if (payload.projectId) await get().fetchTasks(payload.projectId);
+      // OPTIMISTIC UPDATE: Add to UI immediately
+      set({ tasks: [payload, ...originalTasks] });
+
+      // Remove temp _id before sending to API
+      const { _id, ...apiPayload } = payload;
+      const res = await taskApi.createTask(apiPayload);
+      
+      // Replace temp task with real one from server if needed, 
+      // or just refresh to be safe but stay responsive
+      if (payload.projectId) {
+        await get().fetchTasks(payload.projectId);
+      }
     } catch (err) {
       console.error("Store createTask error:", err);
-      set({ error: err.message });
+      // Rollback on error
+      set({ tasks: originalTasks, error: err.message });
     }
   },
 
@@ -82,7 +97,7 @@ const useTaskStore = create((set, get) => ({
 
     try {
       await taskApi.api.delete(`/tasks/${stringId}`, {
-        data: { projectId: projectId || task?.project || task?.projectId }
+        data: { projectId: projectId || taskToDelete?.project || taskToDelete?.projectId }
       });
       console.log("Task deleted from server");
     } catch (err) {

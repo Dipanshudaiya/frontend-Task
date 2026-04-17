@@ -17,7 +17,7 @@ const getUserNameFromToken = (token) => {
 const storedToken = localStorage.getItem("token");
 const storedUserName = localStorage.getItem("userName");
 
-const useAuthStore = create((set) => ({
+const useAuthStore = create((set, get) => ({
   token: storedToken || null,
   isAuthenticated: !!storedToken,
   userName: storedUserName || getUserNameFromToken(storedToken) || "User",

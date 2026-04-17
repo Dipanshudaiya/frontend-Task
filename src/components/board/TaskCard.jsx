@@ -55,7 +55,7 @@ const TaskCard = ({ task }) => {
         }`}
     >
       <div className="flex justify-between items-start mb-2">
-        <div {...attributes} {...listeners} className="flex-1 cursor-grab active:cursor-grabbing outline-none">
+        <div {...attributes} {...listeners} className="flex-1 cursor-grab active:cursor-grabbing outline-none" style={{ touchAction: 'none' }}>
           <h3 className="font-bold text-gray-900 text-sm leading-tight group-hover:text-blue-600 transition-colors">
             {task.title}
           </h3>
@@ -66,7 +66,7 @@ const TaskCard = ({ task }) => {
           )}
         </div>
         
-        <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-all duration-200">
+        <div className="flex space-x-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200">
           <button 
             onClick={handleEdit} 
             className="p-1 hover:bg-gray-100 rounded text-gray-400 hover:text-gray-600 transition-colors"

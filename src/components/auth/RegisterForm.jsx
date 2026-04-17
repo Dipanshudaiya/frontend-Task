@@ -1,9 +1,10 @@
 import { useState } from "react";
 import useAuthStore from "../../store/useAuthStore";
 
-const RegisterForm = () => {
+const RegisterForm = ({ onSwitchToLogin }) => {
   const { register } = useAuthStore();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -12,16 +13,25 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
     if (!form.name || !form.email || !form.password) {
       return alert("All fields required");
     }
 
     setLoading(true);
     try {
+      setError("");
       await register(form);
-      alert("Account created successfully! Please login.");
+      // Removed alert per user request - switch immediately
+      if (onSwitchToLogin) onSwitchToLogin();
     } catch (err) {
-      alert("Registration failed. Please try again.");
+      console.error("Registration Error:", err);
+      const errorMsg = err.response?.data?.message || err.message || "Registration failed. Please try again.";
+      if (errorMsg.includes("E11000")) {
+        setError("This email is already registered. Please login instead.");
+      } else {
+        setError(errorMsg);
+      }
     } finally {
       setLoading(false);
     }
@@ -44,6 +54,7 @@ const RegisterForm = () => {
             <input 
               type="text"
               placeholder="Your Name"
+              value={form.name}
               className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-12 pr-4 py-3.5 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all text-sm hover:border-gray-300"
               onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
@@ -59,10 +70,19 @@ const RegisterForm = () => {
             <input 
               type="email"
               placeholder="you@example.com"
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-12 pr-4 py-3.5 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all text-sm hover:border-gray-300"
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              value={form.email}
+              className={`w-full bg-gray-50 border ${error ? "border-red-500 ring-red-500/10" : "border-gray-200"} rounded-xl pl-12 pr-4 py-3.5 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all text-sm hover:border-gray-300`}
+              onChange={(e) => {
+                setForm({ ...form, email: e.target.value });
+                if (error) setError("");
+              }}
             />
           </div>
+          {error && (
+            <p className="mt-1.5 text-[11px] text-red-500 font-bold ml-1 animate-in fade-in slide-in-from-top-1 duration-200">
+              {error}
+            </p>
+          )}
         </div>
 
         <div>
@@ -74,6 +94,7 @@ const RegisterForm = () => {
             <input 
               type="password" 
               placeholder="Create a password"
+              value={form.password}
               className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-12 pr-4 py-3.5 text-gray-900 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-all text-sm hover:border-gray-300"
               onChange={(e) => setForm({ ...form, password: e.target.value })}
             />
@@ -83,7 +104,7 @@ const RegisterForm = () => {
         <button 
           type="submit"
           disabled={loading}
-          className="w-full mt-2 bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg shadow-blue-500/30 disabled:opacity-60 disabled:cursor-not-allowed text-sm tracking-wide"
+          className="w-full mt-2 bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 rounded-xl transition-transform duration-200 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg shadow-blue-500/30 disabled:opacity-60 disabled:cursor-not-allowed text-sm tracking-wide select-none cursor-pointer"
         >
           {loading ? (
             <span className="flex items-center justify-center">
